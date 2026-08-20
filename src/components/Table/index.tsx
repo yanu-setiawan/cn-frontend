@@ -5,9 +5,9 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  TableOptions,
   useReactTable,
 } from "@tanstack/react-table";
+import type { TableOptions } from "@tanstack/react-table";
 import { FaFaceFrownOpen } from "react-icons/fa6";
 import { FaSpinner } from "react-icons/fa";
 
