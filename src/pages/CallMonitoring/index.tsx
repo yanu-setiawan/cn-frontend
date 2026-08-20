@@ -21,9 +21,10 @@ import type {
   ICallMonitoringFilterReq,
 } from "@/interface/request/callMonitoring.interface";
 import { useGetListCallMonitoring } from "@/services/CallMonitoring";
-import { formatCallTimestamp } from "@/lib/date";
+import { formatCallTimestamp, formatDateTime } from "@/lib/date";
 import CustomTable from "@/components/Table";
 import { SENTIMENT_OPTIONS, SORT_BY_OPTIONS, STATUS_OPTIONS } from "@/constant/callMonitoring";
+import { Clock, InfoIcon } from "lucide-react";
 
 const columnHelper = createColumnHelper<ICallMonitoringItem>();
 
@@ -41,6 +42,7 @@ export default function CallMonitoring() {
   });
 
   const [searchInput, setSearchInput] = useState("");
+  const [currentTime, setCurrentTime] = useState(new Date());
   const [date, setDate] = useState<RangeValue<DateValue> | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -100,6 +102,13 @@ export default function CallMonitoring() {
     }, 500);
     return () => clearTimeout(timer);
   }, [searchInput, updateFilter]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const handleResetFilters = () => {
     setSearchInput("");
@@ -176,9 +185,9 @@ export default function CallMonitoring() {
               size="sm"
               isIconOnly
               aria-label="Detail"
-              className="bg-primary/10 text-primary"
+              className="bg-red-800/5 text-primary"
             >
-              <FiArrowRightCircle size={17} />
+              <InfoIcon size={17} />
             </Button>
           </div>
         ),
@@ -189,13 +198,22 @@ export default function CallMonitoring() {
 
   return (
     <section className="flex flex-col gap-5 bg-[#fcfbfb] rounded-xl p-6 lg:p-16">
+      <div className="flex flex-col pt-2 pb-4">
+        <div className="flex flex-col gap-1">
+          <p className="text-[13px] text-gray-600 mt-1 flex items-center gap-1">
+            <Clock size={13} /> {formatDateTime(currentTime)}
+          </p>
+          <h1 className="text-2xl font-semibold text-primary">
+            Hai, Selamat Datang 
+          </h1>
+        </div>
+      </div>
       <div className="relative p-6 bg-white shadow rounded-xl">
         <div className="flex flex-col gap-6 mb-6">
           <div className="flex items-center justify-between gap-4">
             <p className="text-lg font-medium text-accent-primary">Call Monitoring</p>
 
             <div className="flex items-center gap-2">
-              {/* Toggle filter — cuma tampil di mobile */}
               <Button
                 variant="bordered"
                 radius="md"
@@ -229,7 +247,6 @@ export default function CallMonitoring() {
             </div>
           </div>
 
-          {/* Panel filter — hidden/flex dikontrol isFilterOpen di mobile, SELALU flex di lg ke atas */}
           <div
             className={cn(
               "flex-col gap-4 border-2 border-gray-500/20 rounded-xl p-3.5",

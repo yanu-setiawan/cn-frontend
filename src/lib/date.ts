@@ -44,3 +44,18 @@ export function formatCallTimestamp(isoString: string): string {
     minute: "2-digit",
   });
 }
+
+export const formatDateTime = (date: Date) => {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  };
+  const datePart = date.toLocaleDateString("id-ID", options);
+  const timePart = date.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return `${datePart} | ${timePart} WIB`;
+};
