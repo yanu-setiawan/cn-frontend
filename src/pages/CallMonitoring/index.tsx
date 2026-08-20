@@ -12,8 +12,8 @@ import {
 } from "@heroui/react";
 import { createColumnHelper, type Row } from "@tanstack/react-table";
 import { RiResetLeftFill } from "react-icons/ri";
-import { FiArrowRightCircle, FiSearch, FiFilter, FiChevronDown } from "react-icons/fi";
-import { FaPlus } from "react-icons/fa6";
+import { FiSearch, FiFilter, FiChevronDown } from "react-icons/fi";
+// import { FaPlus } from "react-icons/fa6";
 
 import type { ICallMonitoringItem } from "@/interface/response/callMonitoring.interface";
 import type {
@@ -24,7 +24,7 @@ import { useGetListCallMonitoring } from "@/services/CallMonitoring";
 import { formatCallTimestamp, formatDateTime } from "@/lib/date";
 import CustomTable from "@/components/Table";
 import { SENTIMENT_OPTIONS, SORT_BY_OPTIONS, STATUS_OPTIONS } from "@/constant/callMonitoring";
-import { Clock, InfoIcon } from "lucide-react";
+import { Clock } from "lucide-react";
 
 const columnHelper = createColumnHelper<ICallMonitoringItem>();
 
@@ -175,23 +175,23 @@ export default function CallMonitoring() {
         header: "Status",
         cell: (info) => info.getValue() ?? "-",
       }),
-      {
-        id: "action",
-        header: "Aksi",
-        cell: ({ row }: { row: Row<ICallMonitoringItem> }) => (
-          <div className="flex justify-center gap-2">
-            <Button
-              radius="sm"
-              size="sm"
-              isIconOnly
-              aria-label="Detail"
-              className="bg-red-800/5 text-primary"
-            >
-              <InfoIcon size={17} />
-            </Button>
-          </div>
-        ),
-      },
+      //   {
+      //     id: "action",
+      //     header: "Aksi",
+      //     cell: ({ row }: { row: Row<ICallMonitoringItem> }) => (
+      //       <div className="flex justify-center gap-2">
+      //         <Button
+      //           radius="sm"
+      //           size="sm"
+      //           isIconOnly
+      //           aria-label="Detail"
+      //           className="bg-red-800/5 text-primary"
+      //         >
+      //           <InfoIcon size={17} />
+      //         </Button>
+      //       </div>
+      //     ),
+      //   },
     ],
     [filters.pageIndex, filters.pageSize],
   );
@@ -203,9 +203,7 @@ export default function CallMonitoring() {
           <p className="text-[13px] text-gray-600 mt-1 flex items-center gap-1">
             <Clock size={13} /> {formatDateTime(currentTime)}
           </p>
-          <h1 className="text-2xl font-semibold text-primary">
-            Hai, Selamat Datang 
-          </h1>
+          <h1 className="text-2xl font-semibold text-primary">Hai, Selamat Datang</h1>
         </div>
       </div>
       <div className="relative p-6 bg-white shadow rounded-xl">
@@ -235,7 +233,7 @@ export default function CallMonitoring() {
                 )}
               </Button>
 
-              <Button
+              {/* <Button
                 color="primary"
                 variant="solid"
                 className="flex items-center px-4"
@@ -243,7 +241,7 @@ export default function CallMonitoring() {
                 startContent={<FaPlus size={14} />}
               >
                 Tambah
-              </Button>
+              </Button> */}
             </div>
           </div>
 
