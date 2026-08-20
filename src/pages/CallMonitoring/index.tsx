@@ -338,6 +338,7 @@ export default function CallMonitoring() {
               variant="bordered"
               isClearable
               label="Cari"
+              aria-label="Cari"
               labelPlacement="outside"
               placeholder="Cari disini"
               startContent={<FiSearch />}
@@ -350,6 +351,7 @@ export default function CallMonitoring() {
               variant="bordered"
               radius="sm"
               label="Tanggal"
+              aria-label="Tanggal"
               labelPlacement="outside"
               visibleMonths={2}
               value={date as any}
@@ -363,6 +365,8 @@ export default function CallMonitoring() {
 
             <Select
               variant="bordered"
+              aria-label="Sentimen"
+              disallowEmptySelection
               radius="sm"
               label="Sentimen"
               labelPlacement="outside"
@@ -382,6 +386,7 @@ export default function CallMonitoring() {
               variant="bordered"
               radius="sm"
               label="Status"
+              aria-label="Status"
               labelPlacement="outside"
               placeholder="Pilih status"
               selectedKeys={[filters.status]}
@@ -396,6 +401,7 @@ export default function CallMonitoring() {
             <Select
               variant="bordered"
               radius="sm"
+              aria-label="Urutkan Berdasarkan"
               label="Urutkan Berdasarkan"
               labelPlacement="outside"
               placeholder="Pilih kolom"
@@ -412,6 +418,7 @@ export default function CallMonitoring() {
               variant="bordered"
               radius="sm"
               label="Arah Urutan"
+              aria-label="Arah Urutan"
               labelPlacement="outside"
               placeholder="Pilih arah"
               selectedKeys={[filters.sortDir]}

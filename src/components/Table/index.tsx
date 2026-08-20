@@ -193,6 +193,7 @@ const CustomTable = <T,>({
           </div>
           <div className="flex flex-col items-center gap-4 lg:hidden">
             <Pagination
+              aria-label="Navigasi halaman"
               size="sm"
               color="primary"
               total={table.getPageCount()}
