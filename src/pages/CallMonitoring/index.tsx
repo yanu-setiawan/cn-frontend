@@ -19,10 +19,15 @@ import { FiSearch, FiFilter, FiChevronDown } from "react-icons/fi";
 import type { ICallMonitoringItem } from "@/interface/response/callMonitoring.interface";
 import type {
   FilterState,
+  ICallMonitoringCreateReq,
   ICallMonitoringFilterReq,
   ICallMonitoringUpdateReq,
 } from "@/interface/request/callMonitoring.interface";
-import { useEditCallMonitoring, useGetListCallMonitoring } from "@/services/CallMonitoring";
+import {
+  useCreateCallMonitoring,
+  useEditCallMonitoring,
+  useGetListCallMonitoring,
+} from "@/services/CallMonitoring";
 import { formatCallTimestamp, formatDateTime } from "@/lib/date";
 import CustomTable from "@/components/Table";
 import { SENTIMENT_OPTIONS, SORT_BY_OPTIONS, STATUS_OPTIONS } from "@/constant/callMonitoring";
@@ -30,6 +35,8 @@ import { Clock, InfoIcon } from "lucide-react";
 import ModalDetailCallMonitoring from "@/components/Modal/ModalDetailCallMonitoring";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { FaPlus } from "react-icons/fa6";
+import ModalCreateCallMonitoring from "@/components/Modal/ModalCreateCallMonitoring";
 
 const columnHelper = createColumnHelper<ICallMonitoringItem>();
 
@@ -99,6 +106,25 @@ export default function CallMonitoring() {
   const { data, isLoading } = useGetListCallMonitoring(requestFilters);
 
   const { mutate: updateCallMonitoring, isPending: isUpdating } = useEditCallMonitoring();
+  const {
+    isOpen: isCreateOpen,
+    onOpen: onOpenCreate,
+    onOpenChange: onOpenChangeCreate,
+  } = useDisclosure();
+  const { mutate: createCallMonitoringMutate, isPending: isCreating } = useCreateCallMonitoring();
+
+  const handleSubmitCreate = (payload: ICallMonitoringCreateReq) => {
+    createCallMonitoringMutate(payload, {
+      onSuccess: () => {
+        toast.success("Data berhasil dibuat");
+        queryClient.invalidateQueries({ queryKey: ["getListCallMonitoring"] });
+        onOpenChangeCreate();
+      },
+      onError: () => {
+        toast.error("Gagal membuat data");
+      },
+    });
+  };
 
   const handleSubmitEdit = (id: string, payload: ICallMonitoringUpdateReq) => {
     updateCallMonitoring(
@@ -242,6 +268,12 @@ export default function CallMonitoring() {
         isSubmitting={isUpdating}
         onSubmitEdit={handleSubmitEdit}
       />
+      <ModalCreateCallMonitoring
+        isOpen={isCreateOpen}
+        onOpenChange={onOpenChangeCreate}
+        onSubmitCreate={handleSubmitCreate}
+        isSubmitting={isCreating}
+      />
 
       <div className="flex flex-col pt-2 pb-4">
         <div className="flex flex-col gap-1">
@@ -278,15 +310,16 @@ export default function CallMonitoring() {
                 )}
               </Button>
 
-              {/* <Button
+              <Button
                 color="primary"
                 variant="solid"
                 className="flex items-center px-4"
                 radius="md"
                 startContent={<FaPlus size={14} />}
+                onPress={onOpenCreate}
               >
                 Tambah
-              </Button> */}
+              </Button>
             </div>
           </div>
 

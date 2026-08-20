@@ -26,8 +26,8 @@ export interface ICallMonitoringCreateReq {
   customerName?: string;
   phoneNumber?: string;
   csName?: string;
-  sentimentScore?: string;
-  durationSeconds?: string;
+  sentimentScore?: number;
+  durationSeconds?: number;
   status?: "PROSPEK" | "CLOSE" | "REJECT";
 }
 
