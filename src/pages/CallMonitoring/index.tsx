@@ -37,6 +37,7 @@ import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { FaPlus } from "react-icons/fa6";
 import ModalCreateCallMonitoring from "@/components/Modal/ModalCreateCallMonitoring";
+import SummaryCards from "@/components/Card/SummaryCard";
 
 const columnHelper = createColumnHelper<ICallMonitoringItem>();
 
@@ -275,19 +276,22 @@ export default function CallMonitoring() {
         isSubmitting={isCreating}
       />
 
-      <div className="flex flex-col pt-2 pb-4">
-        <div className="flex flex-col gap-1">
-          <p className="text-[13px] text-gray-600 mt-1 flex items-center gap-1">
-            <Clock size={13} /> {formatDateTime(currentTime)}
-          </p>
-          <h1 className="text-2xl font-semibold text-primary">Hai, Selamat Datang</h1>
+      <div className="flex flex-col pt-2 pb-4  ">
+        <div className="flex flex-col gap-4 pt-2 pb-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-1">
+            <p className="text-[13px] text-gray-600 mt-1 flex items-center gap-1">
+              <Clock size={13} /> {formatDateTime(currentTime)}
+            </p>
+            <h1 className="text-2xl font-semibold text-primary">
+              Hai, Selamat Datang di Call Monitoring
+            </h1>
+          </div>
         </div>
       </div>
       <div className="relative p-6 bg-white shadow rounded-xl">
         <div className="flex flex-col gap-6 mb-6">
           <div className="flex items-center justify-between gap-4">
-            <p className="text-lg font-medium text-accent-primary">Call Monitoring</p>
-
+            <SummaryCards totalData={pagination?.totalData ?? 0} isLoading={isLoading} />
             <div className="flex items-center gap-2">
               <Button
                 variant="bordered"
