@@ -2,6 +2,7 @@ import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 const Loader = lazy(() => import("@/components/Loader"));
 const WelcomePage = lazy(() => import("@/pages/WelcomePage"));
+const CallMonitoring = lazy(() => import("@/pages/CallMonitoring"));
 
 export default function Router() {
   return (
@@ -15,10 +16,14 @@ export default function Router() {
             // </PublicRoute>
           }
         />
-        {/* <Route path="/" element={<Layout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-         
-        </Route> */}
+        <Route
+          path="/monitoring"
+          element={
+            // <PublicRoute>
+            <CallMonitoring />
+            // </PublicRoute>
+          }
+        />
       </Routes>
     </Suspense>
   );
