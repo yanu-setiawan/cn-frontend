@@ -46,9 +46,9 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 14px 22px;
+  padding: 10px 17px;
   border: 2px solid rgba(109, 0, 27, 0.6);
-  border-radius: 999px;
+  border-radius: 15px;
 }
 
 .loading-bars span {

@@ -8,7 +8,7 @@ export default function LoaderPage() {
           <span key={i} style={{ animationDelay: `${i * 0.1}s` }} />
         ))}
       </div>
-      <p className="text-accent-primary font-medium uppercase tracking-widest">Loading ...</p>
+      <p className="text-accent-primary font-medium tracking-widest">Loading ...</p>
     </div>
   );
 }
