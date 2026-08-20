@@ -21,3 +21,21 @@ export interface FilterState {
   sortBy: "callId" | "callTimestamp" | "csName" | "customerName" | "sentimentScore";
   sortDir: "asc" | "desc";
 }
+
+export interface ICallMonitoringCreateReq {
+  customerName?: string;
+  phoneNumber?: string;
+  csName?: string;
+  sentimentScore?: string;
+  durationSeconds?: string;
+  status?: "PROSPEK" | "CLOSE" | "REJECT";
+}
+
+export interface ICallMonitoringUpdateReq {
+  customerName?: string;
+  phoneNumber?: string;
+  csName?: string;
+  sentimentScore?: number;
+  durationSeconds?: number;
+  status?: "PROSPEK" | "CLOSE" | "REJECT";
+}

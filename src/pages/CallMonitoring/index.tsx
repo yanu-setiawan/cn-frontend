@@ -9,6 +9,7 @@ import {
   cn,
   type DateValue,
   type RangeValue,
+  useDisclosure,
 } from "@heroui/react";
 import { createColumnHelper, type Row } from "@tanstack/react-table";
 import { RiResetLeftFill } from "react-icons/ri";
@@ -19,12 +20,16 @@ import type { ICallMonitoringItem } from "@/interface/response/callMonitoring.in
 import type {
   FilterState,
   ICallMonitoringFilterReq,
+  ICallMonitoringUpdateReq,
 } from "@/interface/request/callMonitoring.interface";
-import { useGetListCallMonitoring } from "@/services/CallMonitoring";
+import { useEditCallMonitoring, useGetListCallMonitoring } from "@/services/CallMonitoring";
 import { formatCallTimestamp, formatDateTime } from "@/lib/date";
 import CustomTable from "@/components/Table";
 import { SENTIMENT_OPTIONS, SORT_BY_OPTIONS, STATUS_OPTIONS } from "@/constant/callMonitoring";
-import { Clock } from "lucide-react";
+import { Clock, InfoIcon } from "lucide-react";
+import ModalDetailCallMonitoring from "@/components/Modal/ModalDetailCallMonitoring";
+import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const columnHelper = createColumnHelper<ICallMonitoringItem>();
 
@@ -45,6 +50,17 @@ export default function CallMonitoring() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [date, setDate] = useState<RangeValue<DateValue> | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const {
+    isOpen: isDetailOpen,
+    onOpen: onOpenDetail,
+    onOpenChange: onOpenChangeDetail,
+  } = useDisclosure();
+  const [selectedItem, setSelectedItem] = useState<ICallMonitoringItem | null>(null);
+
+  const handleOpenDetail = (item: ICallMonitoringItem) => {
+    setSelectedItem(item);
+    onOpenDetail();
+  };
 
   const handleDateChange = (newDate: RangeValue<DateValue> | null) => {
     setDate(newDate);
@@ -78,7 +94,27 @@ export default function CallMonitoring() {
     size: filters.pageSize,
   };
 
+  const queryClient = useQueryClient();
+
   const { data, isLoading } = useGetListCallMonitoring(requestFilters);
+
+  const { mutate: updateCallMonitoring, isPending: isUpdating } = useEditCallMonitoring();
+
+  const handleSubmitEdit = (id: string, payload: ICallMonitoringUpdateReq) => {
+    updateCallMonitoring(
+      { id, body: payload },
+      {
+        onSuccess: () => {
+          toast.success("Data berhasil diperbarui");
+          queryClient.invalidateQueries({ queryKey: ["getListCallMonitoring"] });
+          onOpenChangeDetail();
+        },
+        onError: () => {
+          toast.error("Gagal memperbarui data");
+        },
+      },
+    );
+  };
 
   const callMonitoringData = useMemo(() => data?.data?.items ?? [], [data]);
   const pagination = data?.data?.pagination;
@@ -175,29 +211,38 @@ export default function CallMonitoring() {
         header: "Status",
         cell: (info) => info.getValue() ?? "-",
       }),
-      //   {
-      //     id: "action",
-      //     header: "Aksi",
-      //     cell: ({ row }: { row: Row<ICallMonitoringItem> }) => (
-      //       <div className="flex justify-center gap-2">
-      //         <Button
-      //           radius="sm"
-      //           size="sm"
-      //           isIconOnly
-      //           aria-label="Detail"
-      //           className="bg-red-800/5 text-primary"
-      //         >
-      //           <InfoIcon size={17} />
-      //         </Button>
-      //       </div>
-      //     ),
-      //   },
+      {
+        id: "action",
+        header: "Aksi",
+        cell: ({ row }: { row: Row<ICallMonitoringItem> }) => (
+          <div className="flex justify-center gap-2">
+            <Button
+              radius="sm"
+              size="sm"
+              isIconOnly
+              aria-label="Detail"
+              className="bg-red-800/5 text-primary"
+              onPress={() => handleOpenDetail(row.original)}
+            >
+              <InfoIcon size={17} />
+            </Button>
+          </div>
+        ),
+      },
     ],
     [filters.pageIndex, filters.pageSize],
   );
 
   return (
     <section className="flex flex-col gap-5 bg-[#fcfbfb] rounded-xl p-6 lg:p-16">
+      <ModalDetailCallMonitoring
+        isOpen={isDetailOpen}
+        onOpenChange={onOpenChangeDetail}
+        data={selectedItem}
+        isSubmitting={isUpdating}
+        onSubmitEdit={handleSubmitEdit}
+      />
+
       <div className="flex flex-col pt-2 pb-4">
         <div className="flex flex-col gap-1">
           <p className="text-[13px] text-gray-600 mt-1 flex items-center gap-1">
