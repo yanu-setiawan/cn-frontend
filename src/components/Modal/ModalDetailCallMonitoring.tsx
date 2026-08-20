@@ -165,7 +165,7 @@ const ModalDetailCallMonitoring: React.FC<ModalDetailCallMonitoringProps> = ({
                           data.sentimentScore != null
                             ? data.sentimentScore >= 70
                               ? "text-success font-semibold"
-                              : "text-danger font-semibold"
+                              : "text-red-600 font-semibold"
                             : ""
                         }
                       />
