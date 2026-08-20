@@ -42,6 +42,34 @@
   }
 }
 
+.loading-bars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 22px;
+  border: 2px solid rgba(109, 0, 27, 0.6);
+  border-radius: 999px;
+}
+
+.loading-bars span {
+  display: inline-block;
+  width: 6px;
+  height: 24px;
+  border-radius: 4px;
+  background-color: var(--color-primary);
+  animation: loading-bars-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes loading-bars-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+/* 
 .loader {
   width: 75px;
   aspect-ratio: 1;
@@ -66,7 +94,7 @@
   margin-left: auto;
   filter: drop-shadow(-40px 40px 0 var(--color-primary));
   animation-delay: -1s;
-}
+} */
 
 @keyframes l8 {
   0%,
