@@ -103,7 +103,7 @@ const CustomTable = <T,>({
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="px-6 py-4 font-semibold tracking-wider text-center text-black"
+                    className="px-6 py-4 font-semibold tracking-wider text-center text-primary"
                   >
                     <div className="flex items-center justify-center gap-2">
                       {header.isPlaceholder

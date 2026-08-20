@@ -9,3 +9,15 @@ export interface ICallMonitoringFilterReq {
   page?: number;
   size?: number;
 }
+
+export interface FilterState {
+  search: string;
+  pageIndex: number;
+  pageSize: number;
+  startDate: string;
+  endDate: string;
+  sentiment: "BELOW_70" | "GTE_70" | "ALL";
+  status: "PROSPEK" | "CLOSE" | "REJECT" | "ALL";
+  sortBy: "callId" | "callTimestamp" | "csName" | "customerName" | "sentimentScore";
+  sortDir: "asc" | "desc";
+}
