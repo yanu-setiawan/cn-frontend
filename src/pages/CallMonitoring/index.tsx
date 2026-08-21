@@ -30,7 +30,7 @@ import {
 } from "@/services/CallMonitoring";
 import { formatCallTimestamp, formatDateTime } from "@/lib/date";
 import CustomTable from "@/components/Table";
-import { SENTIMENT_OPTIONS, SORT_BY_OPTIONS, STATUS_OPTIONS } from "@/constant/callMonitoring";
+import { SENTIMENT_OPTIONS, SORT_BY_OPTIONS } from "@/constant/callMonitoring";
 import { Clock, InfoIcon } from "lucide-react";
 import ModalDetailCallMonitoring from "@/components/Modal/ModalDetailCallMonitoring";
 import toast from "react-hot-toast";
@@ -375,25 +375,9 @@ export default function CallMonitoring() {
               onChange={(e) =>
                 updateFilter("sentiment", e.target.value as FilterState["sentiment"])
               }
-              className="w-full lg:min-w-37.5 lg:w-auto"
+              className="w-full lg:min-w-45 lg:w-auto"
             >
               {SENTIMENT_OPTIONS.map((option) => (
-                <SelectItem key={option.key}>{option.label}</SelectItem>
-              ))}
-            </Select>
-
-            <Select
-              variant="bordered"
-              radius="sm"
-              label="Status"
-              aria-label="Status"
-              labelPlacement="outside"
-              placeholder="Pilih status"
-              selectedKeys={[filters.status]}
-              onChange={(e) => updateFilter("status", e.target.value as FilterState["status"])}
-              className="w-full lg:min-w-37.5 lg:w-auto"
-            >
-              {STATUS_OPTIONS.map((option) => (
                 <SelectItem key={option.key}>{option.label}</SelectItem>
               ))}
             </Select>
@@ -421,6 +405,7 @@ export default function CallMonitoring() {
               aria-label="Arah Urutan"
               labelPlacement="outside"
               placeholder="Pilih arah"
+              disallowEmptySelection
               selectedKeys={[filters.sortDir]}
               onChange={(e) => updateFilter("sortDir", e.target.value as FilterState["sortDir"])}
               className="w-full lg:min-w-32.5 lg:w-auto"
